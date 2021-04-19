@@ -39,7 +39,7 @@ RUN rm -rf composer-setup.php
 
 # Download Akaunting application
 RUN mkdir -p /var/www/html
-RUN cd /var/www/html && git clone https://github.com/akaunting/akaunting.git . && composer install && npm install && npm run dev
+RUN cd /var/www/html && git clone --depth=1 --branch=master https://github.com/akaunting/akaunting.git . && composer install && npm install && npm run dev
 
 COPY files/akaunting-php-fpm-nginx.sh /usr/local/bin/akaunting-php-fpm-nginx.sh
 COPY files/html /var/www/html

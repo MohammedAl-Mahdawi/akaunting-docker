@@ -31,7 +31,7 @@ RUN rm -rf composer-setup.php
 
 # Download Akaunting application
 RUN mkdir -p /var/www/html
-RUN cd /var/www/html && git clone https://github.com/akaunting/akaunting.git .
+RUN cd /var/www/html && git clone --depth=1 --branch=master https://github.com/akaunting/akaunting.git .
 
 # Setup Working Dir
 WORKDIR /var/www/html
