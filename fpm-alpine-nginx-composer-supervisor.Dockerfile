@@ -49,6 +49,9 @@ RUN cd /var/www/html && git clone https://github.com/akaunting/akaunting.git . &
 COPY files/akaunting-php-fpm-nginx-supervisord.sh /usr/local/bin/akaunting-php-fpm-nginx-supervisord.sh
 COPY files/html /var/www/html
 
+RUN chmod -R u=rwX,g=rX,o=rX /var/www/html
+RUN chown -R www-data:root /var/www/html
+
 # Setup Working Dir
 WORKDIR /var/www/html
 

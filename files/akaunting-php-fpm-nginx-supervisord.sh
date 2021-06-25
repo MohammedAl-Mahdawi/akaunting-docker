@@ -30,7 +30,4 @@ else
     unset COMPANY_NAME COMPANY_EMAIL ADMIN_EMAIL ADMIN_PASSWORD
 fi
 
-chmod -R u=rwX,g=rX,o=rX /var/www/html
-chown -R www-data:root /var/www/html
-
 exec "$@"
