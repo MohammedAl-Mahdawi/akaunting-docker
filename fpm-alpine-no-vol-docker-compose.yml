@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+
+  akaunting:
+    build:
+      dockerfile: fpm-alpine-nginx.Dockerfile
+      context: .
+    command: --fpm --jsetup
+    volumes: []
+  akaunting-proxy:
+    build:
+      dockerfile: fpm-alpine-nginx.Dockerfile
+      context: .
+    command: --nginx
+    volumes:
+      - ./nginx/nginx-akaunting-host.conf:/etc/nginx/nginx.conf

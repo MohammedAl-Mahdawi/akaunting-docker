@@ -3,11 +3,19 @@
 do_start=
 do_shell=
 do_setup=
+fpm=
+nginx=
 
 while [ $# -gt 0 ]; do
     case "$1" in
         --start)
             do_start=true
+            ;;
+        --fpm)
+            fpm=true
+            ;;
+        --nginx)
+            nginx=true
             ;;
         --shell)
             do_start=false
@@ -16,6 +24,9 @@ while [ $# -gt 0 ]; do
         --setup)
             do_setup=true
             do_start=true
+            ;;
+        --jsetup)
+            do_setup=true
             ;;
     esac
     shift
@@ -59,4 +70,8 @@ if [ "$do_start" ]; then
     nginx -g "daemon off;"
 elif [ "$do_shell" ]; then
     exec /bin/bash -li
+elif [ "$nginx" ]; then
+    nginx -g "daemon off;"
+elif [ "$fpm" ]; then
+    php-fpm
 fi

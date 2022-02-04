@@ -7,6 +7,10 @@ AKAUNTING_SETUP=true COMPOSE_HTTP_TIMEOUT=20000 docker-compose -f fpm-docker-com
 # Run Akaunting using FPM on Alpine and using Nginx as external proxy
 AKAUNTING_SETUP=true COMPOSE_HTTP_TIMEOUT=20000 docker-compose -f fpm-docker-compose.yml -f fpm-alpine-docker-compose.yml up --build
 
+# Run Akaunting using FPM on Alpine and using Nginx as external proxy without volumes
+# NOTE THE COMMANDS PASSED THROUGH THE COMPOSE FILE `fpm-alpine-no-vol-docker-compose.yml` THEY DO THE SETUP AS WELL!
+COMPOSE_HTTP_TIMEOUT=20000 docker-compose -f fpm-docker-compose.yml -f fpm-alpine-no-vol-docker-compose.yml up --build
+
 # Run Akaunting using FPM on Alpine and using Nginx as internal proxy
 AKAUNTING_SETUP=true COMPOSE_HTTP_TIMEOUT=20000 docker-compose -f fpm-alpine-nginx-docker-compose.yml up --build
 
