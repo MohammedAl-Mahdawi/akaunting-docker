@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-fpm-alpine3.15
 
 # Arguments defined in docker-compose.yml
 ARG AKAUNTING_DOCKERFILE_VERSION=0.1
@@ -6,37 +6,18 @@ ARG SUPPORTED_LOCALES="en_US.UTF-8"
 
 ENV NODE_OPTIONS "--max-old-space-size=2048"
 
-RUN apt-get update \
- && apt-get -y upgrade --no-install-recommends \
- && apt-get install -y \
-    build-essential \
-    imagemagick \
-    libfreetype6-dev \
-    libicu-dev \
-    libjpeg62-turbo-dev \
-    libjpeg-dev \
-    libmcrypt-dev \
-    libonig-dev \
-    libpng-dev \
-    libpq-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxrender1 \
-    libzip-dev \
-    locales \
-    openssl \
-    unzip \
-    zip \
-    zlib1g-dev \
+RUN apk add --update --no-cache \
+    gcc \
+    g++ \
+    make \
+    python2 \
     supervisor \
     vim \
     bash \
     nodejs \
     npm \
     git \
-    nginx \
-    --no-install-recommends \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    nginx
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -60,18 +41,15 @@ RUN npm config rm https-proxy
 # Download Akaunting application
 RUN rm -rf /var/www/html
 RUN mkdir -p /var/www/html
-RUN cd /var/www/html && git clone https://github.com/akaunting/akaunting.git . --depth 1 && composer install && npm install && npm run dev
+# Setup Working Dir
+WORKDIR /var/www/html
+RUN git clone https://github.com/akaunting/akaunting.git . --depth 1
+RUN composer install
+RUN npm install
+RUN npm run dev
 
 COPY akaunting-php-fpm-nginx-supervisord.sh /usr/local/bin/akaunting-php-fpm-nginx-supervisord.sh
 COPY html /var/www/html
-
-RUN chmod -R u=rwX,g=rX,o=rX /var/www/html
-RUN chown -R www-data:root /var/www/html
-
-# Setup Working Dir
-WORKDIR /var/www/html
-
-USER root
 
 EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/akaunting-php-fpm-nginx-supervisord.sh"]
