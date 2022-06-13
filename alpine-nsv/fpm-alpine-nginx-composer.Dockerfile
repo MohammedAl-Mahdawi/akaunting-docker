@@ -4,13 +4,11 @@ FROM php:8.1-fpm-alpine3.15
 ARG AKAUNTING_DOCKERFILE_VERSION=0.1
 ARG SUPPORTED_LOCALES="en_US.UTF-8"
 
-ENV NODE_OPTIONS "--max-old-space-size=2048"
-
 RUN apk add --update --no-cache \
     gcc \
     g++ \
     make \
-    python2 \
+    python3 \
     vim \
     bash \
     nodejs \
@@ -43,9 +41,9 @@ RUN mkdir -p /var/www/html
 # Setup Working Dir
 WORKDIR /var/www/html
 RUN git clone https://github.com/akaunting/akaunting.git . --depth 1
-RUN composer install
+RUN composer prod
 RUN npm install
-RUN npm run dev
+RUN npm run prod
 
 COPY akaunting-php-fpm-nginx.sh /usr/local/bin/akaunting-php-fpm-nginx.sh
 COPY html /var/www/html
