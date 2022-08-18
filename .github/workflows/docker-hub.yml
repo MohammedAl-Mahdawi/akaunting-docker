@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        image: ['', v, fpm, fpm-alpine, fpm-alpine-nginx, fpm-alpine-nginx-composer, fpm-alpine-nginx-composer-supervisor, fpm-alpine-nginx-composer-release, test-with-php7.3-fpm-alpine-composer, test-with-php7.4-fpm-alpine-composer, fpm-alpine-nginx-composer-less]
+        image: ['', v, fpm, fpm-alpine, fpm-alpine-nginx, fpm-alpine-nginx-composer, fpm-alpine-nginx-composer-supervisor, fpm-alpine-nginx-composer-release, test-with-php8.0-fpm-alpine-composer, test-with-php8.1-fpm-alpine-composer, fpm-alpine-nginx-composer-less]
         include:
           - image: ''
             file: Dockerfile
@@ -31,10 +31,10 @@ jobs:
             file: fpm-alpine-nginx-composer-supervisor.Dockerfile
           - image: fpm-alpine-nginx-composer-release
             file: fpm-alpine-nginx-composer-release.Dockerfile
-          - image: test-with-php7.3-fpm-alpine-composer
-            file: test-with-php7.3-fpm-alpine-composer.Dockerfile
-          - image: test-with-php7.4-fpm-alpine-composer
-            file: test-with-php7.4-fpm-alpine-composer.Dockerfile
+          - image: test-with-php8.0-fpm-alpine-composer
+            file: test-with-php8.0-fpm-alpine-composer.Dockerfile
+          - image: test-with-php8.1-fpm-alpine-composer
+            file: test-with-php8.1-fpm-alpine-composer.Dockerfile
           - image: fpm-alpine-nginx-composer-less
             file: fpm-alpine-nginx-composer-less.Dockerfile
     steps:

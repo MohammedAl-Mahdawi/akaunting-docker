@@ -1,16 +1,16 @@
-FROM php:7.4-fpm-alpine3.12
+FROM php:8.0-fpm-alpine3.15
 
 # Add Repositories
 RUN rm -f /etc/apk/repositories &&\
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/main" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/community" >> /etc/apk/repositories
 
 # Add Dependencies
 RUN apk add --update --no-cache \
     gcc \
     g++ \
     make \
-    python2 \
+    python3 \
     nano \
     bash \
     nodejs \
