@@ -1,5 +1,14 @@
 #!/bin/bash -e
 
+a2enmod rewrite
+
+if [ ! -f /var/www/html/index.php ]; then
+    unzip /tmp/akaunting.zip -d /var/www/html
+fi
+
+rm -f /tmp/akaunting.zip
+
+
 do_start=
 do_shell=
 do_setup=
@@ -21,12 +30,24 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+mkdir -p storage/framework/{sessions,views,cache}
+mkdir -p storage/app/uploads
+
 if [ "$do_setup" -o "$AKAUNTING_SETUP" == "true" ]; then
     retry_for=30
     retry_interval=5
+
+    if [[ -z "${DB_HOST_WRITE}" ]]; then
+    db_host="${DB_HOST}"
+    else
+    db_host="${DB_HOST_WRITE}"
+    fi
+
+
     while sleep $retry_interval; do
         if php artisan install \
-            --db-host=$DB_HOST \
+            --db-host=$db_host \
+            --db-port=$DB_PORT \
             --db-name=$DB_NAME \
             --db-username=$DB_USERNAME \
             "--db-password=$DB_PASSWORD" \
@@ -48,9 +69,11 @@ else
     unset COMPANY_NAME COMPANY_EMAIL ADMIN_EMAIL ADMIN_PASSWORD
 fi
 
+chmod -R u=rwX,g=rX,o=rX /var/www/html
+chown -R www-data:root /var/www/html
+
 if [ "$do_start" ]; then
-    php-fpm -D
-    nginx -g "daemon off;"
+    exec docker-php-entrypoint apache2-foreground
 elif [ "$do_shell" ]; then
     exec /bin/bash -li
 fi

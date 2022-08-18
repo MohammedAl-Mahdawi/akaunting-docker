@@ -1,6 +1,8 @@
 # This repo is for me to play with Akaunting, please refer to the official [Akaunting docker repo](https://github.com/akaunting/docker) if you want stable images.
 
 ```shell
+# Run Akaunting setup that checks for volume files before copying them.
+AKAUNTING_SETUP=true docker-compose -f v-docker-compose.yml up --build
 # Run Akaunting with FPM on Debian and use Nginx as external proxy
 AKAUNTING_SETUP=true COMPOSE_HTTP_TIMEOUT=20000 docker-compose -f fpm-docker-compose.yml up --build
 
