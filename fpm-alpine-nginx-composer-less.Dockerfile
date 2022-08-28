@@ -55,10 +55,10 @@ COPY files/html /var/www/html
 RUN mkdir -p storage/framework/{sessions,views,cache}
 RUN mkdir -p storage/app/uploads
 
+USER root
+
 RUN chmod -R u=rwX,g=rX,o=rX /var/www/html
 RUN chown -R www-data:root /var/www/html
-
-USER root
 
 EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/akaunting-php-fpm-nginx-less.sh"]
