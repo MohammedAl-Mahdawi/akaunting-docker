@@ -42,9 +42,8 @@ RUN mkdir -p /var/www/html
 # Setup Working Dir
 WORKDIR /var/www/html
 
-RUN git clone https://github.com/akaunting/akaunting.git .
+RUN git clone --depth=1 --branch=master https://github.com/akaunting/akaunting.git .
 RUN chown -R www-data:www-data /var/www/html
-USER www-data
 RUN composer prod
 RUN npm install
 RUN npm run prod
@@ -54,8 +53,6 @@ COPY files/html /var/www/html
 
 RUN mkdir -p storage/framework/{sessions,views,cache}
 RUN mkdir -p storage/app/uploads
-
-USER root
 
 RUN chmod -R u=rwX,g=rX,o=rX /var/www/html
 RUN chown -R www-data:root /var/www/html
